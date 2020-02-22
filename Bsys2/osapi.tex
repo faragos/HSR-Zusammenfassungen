@@ -1,0 +1,28 @@
+\section{OS API}
+\subsection{Aufgaben OS}
+\begin{itemize}
+    \item Abstraktion/Portabilität
+    \item Resourcenmanagement/Isolation
+    \item Benutzerverwaltung/Sicherheit
+\end{itemize}
+\subsection{Prozessor Privilege Level}
+mind. 2 Privilege Lvls.: Kernel Mode, User Mode\\
+Kernel bestimmt in welchem Modus ein Programm läuft (Entscheid somit softwareseitig)
+%\textbf{Micro-Kernel:} selbst Gerätetreiber in User Mode \textcolor{green}{+} Stabilität, Analysierbarkeit \textcolor{red}{-} Performance (häufige Mode-Wechsel)
+%\textbf{Monolithisch (Linux etc.):} sehr viel Funkt. in Kernel, welche nicht nötig wären \textcolor{green}{+} Performance (weniger Wechsel) \textcolor{red}{-}Programmierfehler (wilde Pointer, einige Anwendungen in Kernel, Abstimmung zwischen Programmierern etc.)
+
+\subsubsection{Wechsel vom User Mode in Kernel Mode}
+\textit{syscall $\rightarrow$ Kernel-Mode $\rightarrow$ Instr. Pointer auf Call Handler\\}
+Linux-Kernel nicht binärkompatibel
+
+\subsection{Programmargumente}
+Argumente vom OS in Speicherbereich des Programms als Array mit Pointern auf null-terminierte Strings\\
+\prgc{main (int argc, char** argv)}: \prgc{argc} Anz. Argumente, \prgc{argv} Pointer auf Array mit Strings(\prgc{char*}), \prgc{argv[0]} Programmname!
+
+\subsection{Umgebungsvariablen}
+Umgebungsvar. vom OS in Speicherbereich des Programms kopiert als \textcolor{green}{Array mit Pointern} auf \textcolor{brown}{null-terminierte Strings} (wie Programmarg.)\\
+POSIX jeder Prozess eigene Umgebungsvariablen\\
+\textcolor{blue}{Key} (unique) \textcolor{red}{Value}\\
+Umgebungsvariablen initial vom erzeugenden Prozess festgelegt (z.B. shell)
+
+\prgc{putenv} ersetzt mit Pointer, keine Kopie (wie set)!

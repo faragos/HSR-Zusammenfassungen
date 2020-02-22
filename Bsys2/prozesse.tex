@@ -1,0 +1,34 @@
+\section{Prozesse}
+\textbf{Monoprogrammierung: }2 SW-Akteure (OS, Programm)
+\textbf{Quasi-Parallel: }Programme gleichzeitig in Hauptspeicher, Ausführung nacheinander, für Isolation: jeder Prozess virtueller Adressraum
+\textbf{Prozess umfasst: }Abbild des Programms (text section), globale Var. (data section), Speicher für Heap (startet bei kleinster Nr.)$\leftrightarrow$Stack (startet bei grösster) \textbf{Eigenschaften Prozess: }eigener Adressraum, frei Registerbelegung, Isolation (gut für unabhängige Appl.) \textcolor{red}{-} gemeinsame Ressourcen schwierig, grosser Overhead für Prozesserzeugung, Realisierung Parallelisierung aufwändig
+\subsection{Process Control Block (PCB)}
+OS benötigt PCB: Eigene ID, Parent ID andere wichtige IDs | Speicher Zustand Prozessor | Scheduling-Infos | Daten für Sync/Kommunikation zwischen Prozessen | Filesystem-Infos | Security-Infos
+
+\subsection{Interrupts}
+Auftreten eines Interrupts, Ablauf:
+\begin{enumerate}
+    \item context safe: Register, Flags, Instr. Pointer, MMU-Config
+    \item Aufruf Interrupt-Handler, kann Kontext überschreiben
+    \item context restore: Wiederherstellung des Prozesses aus PCB
+\end{enumerate}
+Kontext-Wechsel sehr teuer
+
+%\subsection{Erzeugen eines Prozesses}
+%Aus Programm Prozess machen: 1. Prozess erzeugen 2. Image des Programms in Prozess laden \& in laufbereiten Zustand versetzen
+
+\subsection{Prozesshierarchie}
+jeder Prozess: 1 Parent-Prozess, bel. Anz. Child-Prozesse
+
+\subsection{API}
+Kopie des Prozesses, ausser: Child hat eigene Prozess-ID
+
+\prgc{wait} unterbricht Prozess bis 1 Child-Prozess beendet | \prgc{status} Out-Parameter, Abfrage durch Makros
+
+\subsubsection{Zombieprozess}
+Child zw. seinem Ende und Aufruf von \prgc{wait()} Zombie\\
+Parent verantwortlich, OS behält Statusinfos bis zum Aufruf
+\textbf{Dauerhafter Zombie: } Parent ruft wait nicht auf, Lösung: Parent stoppen $\rightarrow$ Childs werden zu Orphants
+
+\subsubsection{Orphanprozess}
+Parent Prozess beendet $\rightarrow$ alle Child-Prozesse verwaisen, werden an Prozess Nr. 1 übergeben $\rightarrow$ ruft wait in Endlosschleife auf

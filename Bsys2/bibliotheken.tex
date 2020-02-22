@@ -1,0 +1,39 @@
+\section{Bibliotheken}
+
+%\subsection{Statische Bibliotheken} 
+%Archiv von Obj-Dateien, wie mehrere Obj-Dateien behandelt lib$<$name$>$.a\\
+%\textcolor{green}{+}einfache Verwendung/Implementation
+%\textcolor{red}{-}Neuerstellung der Programme bei Änderungen der Lib nötig
+%\textcolor{red}{-}fixe Funktionalität
+
+%\subsection{Dynamische Bibliotheken}
+%Executable nur noch Referenz auf Bibliothek, zur Lade-/Laufzeit gelinkt
+%\textcolor{green}{+}Programm muss nur Bibliothek laden, die es braucht
+
+%\subsection{API}
+%\begin{minted}{c}
+%//Öffnet dynamische Bibliothek, Handle zurück
+%void* dlopen(char* filename, int mode)
+%//dlsym Adresse des Symbols als void*
+%typedef int (*funct_t)(int);
+%funct_t f = dlsym(handle, "my_function");
+%int *i = dlsym(handle, "my_int");
+%(*f)(*i);
+%int dlclose(void* handle);
+%char dlerror();
+%\end{minted}
+
+%\subsection{Shared Objects}
+%Referenz in Executable nötig, OS sucht bei Programmstart automatisch richtige Bibliotheken\\
+%Versionen und Unterversionen können gleichzeitig verwendet werden/existieren
+
+\begin{tabular}{|l|l|l|}
+\hline
+   Lin.-Name:  & lib + Biblio. + .so & libmylib.so\\
+   \hline
+   SO-Name: & Lin.-Name + . + V.nr. & libmylib.so.2\\
+   \hline
+   Real-Name: & SO-Name + . + SubV.nr. & libmylib.so.2.1\\
+   \hline
+\end{tabular}
+\prgc{/usr/lib}

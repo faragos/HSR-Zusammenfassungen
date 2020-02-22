@@ -1,0 +1,71 @@
+\section{Interprozess-Kommunikation (IPC)}
+\subsection{Signale}
+ermöglichen Unterbruch eines Prozesses von aussen\\
+wird vom OS wie ein Interrupt behandelt
+%\begin{itemize}
+%    \item Unterbruch des laufenden Prozesses/(Threads)
+%    \item Auswahl Signal-Handler Funktion
+%    \item Ausführen Signal-Handler Funktion
+%    \item Fortsetzen des Prozesses (falls Prozess nicht beendet)
+%\end{itemize}
+
+\subsubsection{Quelle von Signalen}
+\textbf{Hardware/OS: }Ungültige Instruktion, (\textit{segmentation fault})
+\textbf{Andere Prozesse: }Ctrl-C
+
+\subsubsection{Signale behandeln}
+\textbf{Ausser SIGKILL \& SIGSTOP alle Handler überschreibbar}
+
+\subsubsection{Wichtige Signale}
+SIGTERM bittet Programm zu beenden \\
+SIGKILL killt Programm (SIGKILL/SIGSTOP nicht überschreibbar)
+
+%\bash{kill 1234 5678} SIGTERM an Prozesse 1234 5678\\
+%\bash{kill -Kill 1234} SIGKILL an Prozess 1234\\
+%\bash{kill -l} listet alle möglichen Signale auf 
+%\begin{minted}{C}
+%sigemptyset(sigset_t *set);
+%sigfillset(sigset_t *set);
+%sigaddset(sigset_t *set, int signal);//hinzufügen
+%sigdelset(sigset_t *set, int signal);//entfernen
+%sigismember(const sigset_t *set, int signal);//1 -> true
+%\end{minted}
+
+\subsection{Message-Passing}
+%Implementationsabhängig: fixe/variable Nachrichtengrösse + folgende Punkte: %, Direkte/indirekte Kommunikation, Synchrone/asynchrone Kommunikation, Pufferung, Mit/ohne Prioritäten
+
+\subsubsection{Direkte Kommunikation}
+Sender muss Empfänger kennen\\
+symmetrisches: kennt vs. Asymmetrisches: erhält ID
+
+\subsubsection{Indirekte Kommunikation}
+Mailbox/Port/Queue kennen\\
+Queue gehört zu Prozess oder zu OS(Lösch/Erzeugmechanism.)
+
+\subsubsection{Synchronisation}
+blockierend (synchron)/nicht-blockierend(asynchron)\\
+%\textbf{asynchrones Empfangen} 
+$\rightarrow$Alle Kombinationen möglich (z.B. synchroner Sender/asynchroner Receiver)
+
+\subsubsection{Rendezvous}
+Sender \& Empfänger blockierend\\
+OS kann direkt vom Sende- in Empfängerprozess kopieren (meistens ungepuffert)
+(implizite Synch, Impl. Producer/Consumer-Problem)
+
+%\subsubsection{Pufferung}
+%\textit{Keine: }Queue-Länge = 0 | Sender muss blockieren
+%\textit{Beschränkt: }$n$ Nachrichten können zwischengespeichert werden | Sender blockiert, wenn Queue voll
+%\textit{Unbeschränkt}
+
+%\subsubsection{Prioriäten}
+%Empfänger holt Nachricht mit höchster Prio zuerst
+
+\subsection{POSIX API}
+\begin{itemize}
+    \item Message-Queues vom OS
+    \item variable Nachrichtenlänge, Maximum pro Queue einstellbar
+    \item synchrone/asynchrone Verwendung
+    \item Prioritäten
+\end{itemize}
+Sockets: bind, listen, accept, recv, send, close
+

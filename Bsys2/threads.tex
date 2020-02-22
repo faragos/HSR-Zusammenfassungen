@@ -1,0 +1,35 @@
+\section{Threads}
+parallel ablaufende Aktivitäten innerhalb Prozess, Geteilte Ressourcen: text section, data section, Heap, geöffnete Dateien, MMU-Infos | jeder Thread eigener Stack + Kontext (da unterschiedliche Stadien, eigene Funktionsaufrufkette)$\rightarrow$Thread-Control Block
+
+\subsection{Amdahls Regel}
+\begin{description}
+\item[$\textcolor{green}{n}$]Anzahl Prozessoren
+\item[$\textcolor{red}{T}$]Ausführungszeit, wenn komplett seriell ausgeführt
+\item[$T'$]Zeit, wenn max. parallelisiert ($\textcolor{brown}{\textcolor{brown}{T_{s}}} + \frac{\textcolor{red}{T}-\textcolor{brown}{\textcolor{brown}{\textcolor{brown}{T_{s}}}}}{\textcolor{green}{n}}$)
+\item[$\textcolor{brown}{\textcolor{brown}{\textcolor{brown}{T_{s}}}}$]Zeit, der seriell ausgeführt werden muss
+\item[$\textcolor{red}{T} - \textcolor{brown}{\textcolor{brown}{\textcolor{brown}{T_{s}}}}$]Zeit, die parallisiert werden kann
+\item[$\frac{\textcolor{red}{T} - \textcolor{brown}{\textcolor{brown}{\textcolor{brown}{T_{s}}}}}{\textcolor{green}{n}}$]Parallel-Anteil verteilt auf n Prozessoren
+\item[$\textcolor{blue}{s} = \frac{\textcolor{brown}{T_s}}{\textcolor{red}{T}}$]serieller Anteil Algorithmus
+\end{description}
+
+\subsubsection{Speedup-Faktor}
+$f \le \frac{\textcolor{red}{T}}{T'} = \frac{1}{\textcolor{blue}{s} + \frac{1-\textcolor{blue}{s}}{\textcolor{green}{n}}}$\\
+parallele Variante max. $f$-mal schneller als serielle
+
+\subsubsection{Bedeutung}
+Nur wenn alles parallelisierbar ist, ist Speedup proportional und maximal $f(\textcolor{blue}{0},\textcolor{green}{n}) = \textcolor{green}{n}$
+
+Mit höherer Anz. Prozessoren nähert sich Speedup $\frac{1}{\textcolor{blue}{s}}$ an: 
+Attribut angeben, Vorgehensweise:
+%\begin{minted}{C}
+%pthread_attr_t attr ;
+%pthread_attr_init (& attr );
+%pthread_attr_setstacksize (& attr , 1 << 16);
+%pthread_create (... , & attr , ...);
+%pthread_attr_destroy (& attr );
+%\end{minted}
+\textbf{Lebensdauer/Beendigung Thread: }springt aus \prgc{start_function} zurück, ruft \prgc{pthread_exit} auf, anderer Thread ruft \prgc{pthread_cancel} auf, Prozess wird beendet\\
+\prgc{pthread_join}
+Wartet bis Thread beendet, Rückgabe wie create oder exit (0 keine)\\
+
+
